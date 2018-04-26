@@ -1,15 +1,11 @@
 {
-  "name": "Stripe Payments Demo",
+  "name": "RealSavvy Checkout",
   "description":
-    "Sample store accepting universal payments on the web with Stripe Elements, Payment Request, Apple Pay, Google Pay, and the Sources API.",
-  "repository": "https://github.com/stripe/stripe-payments-demo",
-  "logo": "https://stripe-payments-demo.appspot.com/images/logo.png",
+    "Checkout for instant website purchases.",
+  "repository": "https://github.com/RealSavvy/checkout",
+  "logo": "https://files.realsavvy.com/realsavvy/savvy_symbol_savvyblack_square.jpg",
   "keywords": [
-    "stripe",
-    "stripe-elements",
-    "stripe-sources",
-    "node",
-    "javascript",
+    "realsavvy",
     "payments",
     "payment-methods",
     "payment-request",
