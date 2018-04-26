@@ -144,7 +144,7 @@ fieldset label {
   padding: 10px 0;
   align-items: center;
   justify-content: center;
-  color: #8898aa;
+  color: #5ca8b7;
   font-weight: 400;
 }
 
@@ -250,7 +250,7 @@ select {
 }
 
 select:focus {
-  color: #666ee8;
+  color: #19C0E2;
 }
 
 ::-webkit-input-placeholder {
@@ -266,7 +266,7 @@ select:focus {
 
 input:-webkit-autofill,
 select:-webkit-autofill {
-  -webkit-text-fill-color: #666ee8;
+  -webkit-text-fill-color: #19C0E2;
   transition: background-color 100000000s;
   -webkit-animation: 1ms void-animation-out 1s;
 }
@@ -281,7 +281,7 @@ select:-webkit-autofill {
 
 button {
   display: block;
-  background: #666ee8;
+  background: #19C0E2;
   color: #fff;
   box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
   border-radius: 4px;
@@ -494,7 +494,7 @@ button:active {
 
 .payment-info p.notice {
   font-size: 14px;
-  color: #8898aa;
+  color: #5ca8b7;
   text-align: left;
 }
 
@@ -586,7 +586,7 @@ button:active {
 
 #summary .line-item .sku {
   font-size: 14px;
-  color: #8898aa;
+  color: #5ca8b7;
 }
 
 #summary .line-item .count,
@@ -599,7 +599,7 @@ button:active {
 }
 
 #summary .line-item .count {
-  color: #8898aa;
+  color: #5ca8b7;
 }
 
 #summary .line-item .price {
@@ -705,8 +705,8 @@ button:active {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 0 15px 0 430px;
-  max-width: 85%;
+  padding: 0 25px 0 430px;
+  max-width: 80%;
   height: 350px;
   margin: 100px auto;
   background: #fff url(/images/products/site.png) -29px no-repeat;
