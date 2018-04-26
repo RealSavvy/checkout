@@ -15,7 +15,7 @@ module.exports = {
   // Store currency.
   // Note: A few payment methods like iDEAL or SOFORT only work with euros,
   // so it's a good common denominator to test both Elements and Sources.
-  currency: 'usd',
+  currency: 'eur',
 
   // Configuration for Stripe.
   // API Keys: https://dashboard.stripe.com/account/apikeys
