@@ -49,20 +49,14 @@ header {
   border-bottom: 1px solid #f3f3ff;
 }
 
-header a.shop,
-header a.github {
+header a.shop {
   margin: 30px;
   font-size: 13px;
   font-weight: 500;
-  color: #666ee8;
+  color: #000;
   letter-spacing: 0.3px;
   text-transform: uppercase;
   text-decoration: none;
-}
-
-header a.github {
-  padding-left: 20px;
-  background: url(/images/github.svg) left center no-repeat;
 }
 
 header a:hover {
@@ -618,6 +612,7 @@ button:active {
   margin-bottom: 0;
   padding-top: 10px;
   border-top: 1px solid #f3f3ff;
+  display: none;
 }
 
 #summary .line-item.shipping {
@@ -699,9 +694,9 @@ button:active {
 }
 
 #confirmation h1 {
-  font-size: 42px;
+  font-size: 40px;
   font-weight: 300;
-  color: #6863d8;
+  color: #000;
   letter-spacing: 0.3px;
   margin-bottom: 30px;
 }
@@ -710,11 +705,11 @@ button:active {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 0 75px 0 275px;
-  max-width: 75%;
+  padding: 0 15px 0 430px;
+  max-width: 85%;
   height: 350px;
   margin: 100px auto;
-  background: #fff url(/images/order.svg) 75px center no-repeat;
+  background: #fff url(/images/products/site.png) -29px no-repeat;
   box-shadow: 0 1px 3px 0 rgba(50, 50, 93, 0.15);
   border-radius: 6px;
 }
@@ -756,9 +751,6 @@ button:active {
   font-family: monospace;
 }
 
-.hide {
-  display: none;
-}
 /* Media Queries */
 
 @media only screen and (max-width: 1024px) {
@@ -807,8 +799,7 @@ button:active {
     height: 60px;
     background-size: 40px 40px;
   }
-  header a.shop,
-  header a.github {
+  header a.shop {
     display: none;
   }
   #payment-request {

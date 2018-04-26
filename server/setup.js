@@ -13,6 +13,7 @@ const config = require('../config');
 const stripe = require('stripe')(config.stripe.secretKey);
 stripe.setApiVersion(config.stripe.apiVersion);
 
+
 module.exports = {
   running: false,
   run: async () => {
@@ -22,7 +23,9 @@ module.exports = {
       this.running = true;
       this.promise = new Promise(async resolve => {
         // Create a few products and SKUs assuming they don't already exist.
+       
         try {
+          /*
           // Increment Magazine.
           const increment = await stripe.products.create({
             id: 'increment',
@@ -70,6 +73,7 @@ module.exports = {
             currency: config.currency,
             inventory: {type: 'finite', quantity: 500},
           });
+          */
           console.log('Setup complete.');
           resolve();
           this.running = false;
