@@ -756,6 +756,9 @@ button:active {
   font-family: monospace;
 }
 
+.hide {
+  display: none;
+}
 /* Media Queries */
 
 @media only screen and (max-width: 1024px) {
