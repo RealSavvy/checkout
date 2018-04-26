@@ -1,7 +1,7 @@
 <html>
 
 <head>
-  <title>Stripe Payments Demo</title>
+  <title>RealSavvy Checkout</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" type="text/css" href="/stylesheets/store.css">
@@ -11,17 +11,16 @@
 <body>
   <div id="main" class="loading">
     <header>
-      <a class="shop" href="/">Stripe Payments Demo</a>
-      <a class="github" href="https://github.com/stripe/stripe-payments-demo">View on GitHub</a>
+      <a class="shop" href="/">RealSavvy Checkout</a>
     </header>
     <div id="checkout">
       <div id="payment-request">
         <div id="payment-request-button"></div>
       </div>
       <form id="payment-form" method="POST" action="/orders">
-        <p class="instruction">Complete your shipping and payment details below</p>
+        <p class="instruction">Complete your business and payment details below</p>
         <section>
-          <h2>Shipping &amp; Billing Information</h2>
+          <h2>Business &amp; Billing Information</h2>
           <fieldset class="with-state">
             <label>
               <span>Name</span>
@@ -46,6 +45,10 @@
             <label class="zip">
               <span>ZIP</span>
               <input name="postal_code" class="field" placeholder="94107">
+            </label>
+            <label>
+              <span>Phone</span>
+              <input name="phone" class="field" placeholder="555-555-5555" required>
             </label>
             <label class="select">
               <span>Country</span>
@@ -81,7 +84,6 @@
               </div>
             </label>
           </fieldset>
-          <p class="tip">Select another country to see different payment options.</p>
         </section>
         <section>
           <h2>Payment Information</h2>
@@ -196,27 +198,6 @@
     </header>
     <div id="order-items"></div>
     <div id="order-total">
-      <div class="line-item subtotal">
-        <p class="label">Subtotal</p>
-        <p class="price" data-subtotal></p>
-      </div>
-      <div class="line-item shipping">
-        <p class="label">Shipping</p>
-        <p class="price">Free</p>
-      </div>
-      <div class="line-item demo">
-        <div id="demo">
-          <p class="label">Demo in test mode</p>
-          <p class="note">This app is running in test mode. You will
-            <em>not</em> be charged.</p>
-          <p class="note"> Feel free to test payments using a real card or any
-            <a href="https://stripe.com/docs/testing#cards" target="_blank">Stripe test card</a>. Non-card payments will redirect to test pages.
-          </p>
-          <p class="note">Run this app locally in live mode with your Stripe account to create real payments and see redirects to banking
-            sites.
-          </p>
-        </div>
-      </div>
       <div class="line-item total">
         <p class="label">Total</p>
         <p class="price" data-total></p>
