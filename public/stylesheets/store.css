@@ -843,7 +843,7 @@ button:active {
     width: auto;
     height: auto;
     padding: 120px 15px 15px;
-    background: #fff url(/images/order.svg) center 15px no-repeat;
+    background: #fff url(/images/products/site.png) center 15px no-repeat;
     background-size: 68px 86px;
     box-shadow: 0 1px 3px 0 rgba(50, 50, 93, 0.15);
     border-radius: 6px;

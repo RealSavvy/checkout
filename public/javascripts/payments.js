@@ -239,7 +239,7 @@
         redirect: {
           return_url: window.location.href,
         },
-        statement_descriptor: 'Stripe Payments Demo',
+        statement_descriptor: 'RealSavvy Checkout',
         metadata: {
           order: order.id,
         },

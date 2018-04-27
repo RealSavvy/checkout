@@ -48,7 +48,7 @@ const retrieveProduct = async productId => {
 
 // Validate that products exist.
 const checkProducts = productList => {
-  const validProducts = ['web-idx'];
+  const validProducts = ['prod_Ckoa1A8MvwvIbC'];
   return productList.data.reduce((accumulator, currentValue) => {
     return (
       accumulator &&
