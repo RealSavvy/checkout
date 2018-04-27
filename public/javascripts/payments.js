@@ -417,7 +417,7 @@
         mainElement.classList.remove('processing');
         // Update the note about receipt and shipping (the payment is not yet confirmed by the bank).
         confirmationElement.querySelector('.note').innerText =
-          'We’ll send your receipt and ship your items as soon as your payment is confirmed.';
+          'We’ll send your receipt as soon as your payment is confirmed.';
         mainElement.classList.add('success');
         break;
 
