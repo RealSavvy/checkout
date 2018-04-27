@@ -8,7 +8,7 @@ If you’re running a compatible browser, this demo also showcases the [Payment 
 
 ## Overview
 
-<img src="public/images/screenshots/demo-chrome.png" alt="Demo on Google Chrome" width="610"><img src="public/images/screenshots/demo-iphone.png" alt="Demo on Safari iPhone X" width="278">
+<img src="https://github.com/stripe/stripe-payments-demo/raw/master/public/images/screenshots/demo-chrome.png" alt="Demo on Google Chrome" width="610"><img src="https://github.com/stripe/stripe-payments-demo/raw/master/public/images/screenshots/demo-iphone.png" alt="Demo on Safari iPhone X" width="278">
 
 This demo provides an all-in-one example for integrating with Stripe on the web:
 
@@ -41,7 +41,7 @@ Stripe Elements are rich, pre-built UI components that create optimized checkout
 
 This demo uses both the [Card Element](https://stripe.com/docs/elements) and the [Payment Request Button](https://stripe.com/docs/elements/payment-request-button), which provides a single integration for Apple Pay, Google Pay, and the Payment Request API—a new browser standard that allows your customers to quickly provide payment and address information they’ve stored with their browser.
 
-![Payment Request on Chrome](public/images/screenshots/demo-payment-request.png)
+![Payment Request on Chrome](https://github.com/stripe/stripe-payments-demo/raw/master/public/images/screenshots/demo-payment-request.png)
 
 ### Beyond Cards: Payments Sources for Europe and Asia
 
@@ -49,11 +49,11 @@ This demo also shows how to reach customers in Europe and Asia by supporting the
 
 The app also supports both [Multibanco](https://stripe.com/docs/sources/multibanco) and [EPS](https://stripe.com/docs/sources/eps) which are currently in Public Beta on Stripe.
 
-![WeChat Pay with the Sources API](public/images/screenshots/demo-wechat.png)
+![WeChat Pay with the Sources API](https://github.com/stripe/stripe-payments-demo/raw/master/public/images/screenshots/demo-wechat.png)
 
 The [Sources API](https://stripe.com/docs/sources) provides a single integration for all these payment methods. You can support new payment methods without changing a line of code, simply by activating it them in the [Payments Settings](https://dashboard.stripe.com/account/payments/settings) of your Stripe Dashboard.
 
-![Stripe Payment Settings](public/images/screenshots/stripe-payments-settings.png)
+![Stripe Payment Settings](https://github.com/stripe/stripe-payments-demo/raw/master/public/images/screenshots/stripe-payments-settings.png)
 
 ## Requirements
 
