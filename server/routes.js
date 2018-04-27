@@ -36,10 +36,10 @@ router.get('/', (req, res) => {
 
 // Create a customer and subscription on the backend.
 router.post('/subscriptions', async (req, res, next) => {
-  let {currency, items, email, shipping, plans} = req.body;
+  let {email, source, shipping, plans} = req.body;
   try {
-    console.log('-------------------', currency, items, email, shipping);
-    let order = await subscriptions.createSubscription(currency, items, email, shipping);
+    console.log('-------------------', email, shipping, plans, source);
+    let order = await subscriptions.create(email, source, shipping, plans);
     return res.status(200).json({order});
   } catch (err) {
     return res.status(500).json({error: err.message});
@@ -50,7 +50,7 @@ router.post('/subscriptions', async (req, res, next) => {
 router.post('/orders', async (req, res, next) => {
   let {currency, items, email, shipping} = req.body;
   try {
-    console.log('-------------------', currency, items, email, shipping);
+    // console.log('-------------------', currency, items, email, shipping);
     let order = await orders.create(currency, items, email, shipping);
     return res.status(200).json({order});
   } catch (err) {
