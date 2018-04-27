@@ -797,7 +797,6 @@ button:active {
 @media only screen and (max-width: 500px) {
   header {
     height: 60px;
-    background-size: 40px 40px;
   }
   header a.shop {
     display: none;
