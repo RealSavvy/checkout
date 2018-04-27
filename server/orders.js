@@ -10,6 +10,7 @@
 'use strict';
 
 const config = require('../config');
+const _ = require('lodash');
 const stripe = require('stripe')(config.stripe.secretKey);
 stripe.setApiVersion(config.stripe.apiVersion);
 
@@ -25,6 +26,24 @@ const createOrder = async (currency, items, email, shipping) => {
     },
   });
 };
+// Create an order.
+const createSubscription = async (email, source, shipping, plans) => {
+  const customer = await stripe.customers.create({
+    email: email,
+    source: source.id,
+    shipping: shipping,
+    metadata: {
+      status: 'created',
+    }
+  });
+  const plainArray = _.values(plans);
+  const items = plainArray.map((plan)=> ({plan: plan.id}));
+  return await stripe.subscriptions.create({
+    customer: customer.id,
+    items: items
+  })
+};
+
 
 // Retrieve an order by ID.
 const retrieveOrder = async orderId => {
@@ -58,6 +77,28 @@ const checkProducts = productList => {
   }, !!productList.data.length);
 };
 
+// List all plans.
+const listPlans = async () => {
+  return await stripe.plans.list({limit: 3});
+};
+
+// Retrieve a product by ID.
+const retrievePlan = async planId => {
+  return await stripe.plans.retrieve(planId);
+};
+
+// Validate that products exist.
+const checkPlans = planList => {
+  const validPlans = ['prod_Ckoa1A8MvwvIbC'];
+  return planList.data.reduce((accumulator, currentValue) => {
+    return (
+      accumulator &&
+      planList.data.length === 3 &&
+      validPlans.includes(currentValue.id)
+    );
+  }, !!planList.data.length);
+};
+
 exports.orders = {
   create: createOrder,
   retrieve: retrieveOrder,
@@ -69,3 +110,13 @@ exports.products = {
   retrieve: retrieveProduct,
   exist: checkProducts,
 };
+
+exports.plans = {
+  list: listPlans,
+  retrieve: retrievePlan,
+  exist: checkPlans,
+}
+
+exports.subscriptions = {
+  create: createSubscription,
+}

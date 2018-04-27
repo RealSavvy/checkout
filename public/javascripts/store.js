@@ -12,28 +12,23 @@ class Store {
   constructor() {
     this.lineItems = [];
     this.products = {};
+    this.plans = {};
     this.displayOrderSummary();
   }
 
   // Compute the total for the order based on the line items (SKUs and quantity).
   getOrderTotal() {
-    return Object.values(this.lineItems).reduce(
-      (total, {product, sku, quantity}) =>
-        total + quantity * this.products[product].skus.data[0].price,
-      0
-    );
+    return 0;
   }
 
   // Expose the line items for the order (in a way that is friendly to the Stripe Orders API).
   getOrderItems() {
     let items = [];
-    this.lineItems.forEach(item =>
-      items.push({
-        type: 'sku',
-        parent: item.sku,
-        quantity: item.quantity,
-      })
-    );
+    items.push({
+      type: 'sku',
+      parent: this.lineItems[0].sku,
+      quantity: this.lineItems[0].quantity,
+    })
     return items;
   }
 
@@ -54,9 +49,62 @@ class Store {
 
   // Load the product details.
   async loadProducts() {
+    const url = window.location.href;
+    const prod_id = getParameterByName('id',url);
     const productsResponse = await fetch('/products');
     const products = (await productsResponse.json()).data;
-    products.forEach(product => (this.products[product.id] = product));
+    products.forEach(product => {
+      if(product.id === prod_id){
+        this.products[product.id] = product
+      }
+    });
+  }
+  
+  // Load the plans details.
+  async loadPlans() {
+    const plansResponse = await fetch('/plans');
+    const plans = (await plansResponse.json()).data;
+    plans.forEach(plan => {
+      let product = this.products[plan.product];
+      if (product) {
+        if (!product.plans) {
+          product.plans = [];
+        }
+        product.plans.push(plan);
+      }
+      this.plans[plan.id] = plan;
+    });
+    const url = window.location.href;
+    const prod_id = getParameterByName('id',url);
+    this.plans = plans.filter(plan=> plan.product===prod_id)
+  }
+
+  // Create an order object to represent the line items.
+  async createSubscription(email, source, shipping) {
+    try {
+      const plans = this.plans;
+      const response = await fetch('/subscriptions', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          email,
+          source,
+          plans,
+          shipping,
+        }),
+      });
+      const data = await response.json();
+      if (data.error) {
+        return {error: data.error};
+      } else {
+        // Save the current order locally to lookup its status later.
+        this.setActiveOrderId(data.order.id);
+        return data.order;
+      }
+    } catch (err) {
+      return {error: err.message};
+    }
+    return order;
   }
 
   // Create an order object to represent the line items.
@@ -142,38 +190,50 @@ class Store {
   async displayOrderSummary() {
     // Fetch the products from the store to get all the details (name, price, etc.).
     await this.loadProducts();
+    await this.loadPlans();
     const orderItems = document.getElementById('order-items');
     const orderTotal = document.getElementById('order-total');
     let currency;
+
     // Build and append the line items to the order summary.
     for (let [id, product] of Object.entries(this.products)) {
+      console.log('product',product);
       const quantity = 1;
-      let sku = product.skus.data[0];
-      let skuPrice = this.formatPrice(sku.price, sku.currency);
-      let lineItemPrice = this.formatPrice(sku.price * quantity, sku.currency);
+      let plan = product.plans[0];
+      currency = plan.currency;
+      let planPrice = this.formatPrice(plan.amount, plan.currency);
+      let lineItemPrice = this.formatPrice(plan.amount * quantity, plan.currency);
+
       let lineItem = document.createElement('div');
       lineItem.classList.add('line-item');
       lineItem.innerHTML = `
-        <img class="image" src="${product.images[0]}">
+        <img class="image" src="${product.metadata.image}">
         <div class="label">
           <p class="product">${product.name}</p>
-          <p class="sku">${product.description}</p>
+          <p class="sku">${plan.nickname}</p>
         </div>
         <p class="price">${lineItemPrice}</p>`;
       orderItems.appendChild(lineItem);
-      currency = sku.currency;
       this.lineItems.push({
         product: product.id,
-        sku: sku.id,
+        sku: plan.id,
         quantity,
       });
     }
-    // Add the subtotal and total to the order summary.
     const total = this.formatPrice(this.getOrderTotal(), currency);
     orderTotal.querySelector('[data-subtotal]').innerText = total;
     orderTotal.querySelector('[data-total]').innerText = total;
     document.getElementById('main').classList.remove('loading');
   }
+}
+function getParameterByName(name, url) {
+  if (!url) url = window.location.href;
+  name = name.replace(/[\[\]]/g, "\\$&");
+  var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+      results = regex.exec(url);
+  if (!results) return null;
+  if (!results[2]) return '';
+  return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
 
 window.store = new Store();

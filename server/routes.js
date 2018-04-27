@@ -11,7 +11,7 @@
 
 const config = require('../config');
 const setup = require('./setup');
-const {orders, products} = require('./orders');
+const {orders, products, plans, subscriptions} = require('./orders');
 const express = require('express');
 const router = express.Router();
 const stripe = require('stripe')(config.stripe.secretKey);
@@ -34,10 +34,23 @@ router.get('/', (req, res) => {
  * It creates a charge as soon as a non-card payment source becomes chargeable.
  */
 
+// Create a customer and subscription on the backend.
+router.post('/subscriptions', async (req, res, next) => {
+  let {email, source, shipping, plans} = req.body;
+  try {
+    console.log('-------------------', email, shipping, plans, source);
+    let order = await subscriptions.create(email, source, shipping, plans);
+    return res.status(200).json({order});
+  } catch (err) {
+    return res.status(500).json({error: err.message});
+  }
+});
+
 // Create an order on the backend.
 router.post('/orders', async (req, res, next) => {
   let {currency, items, email, shipping} = req.body;
   try {
+     // console.log('-------------------', currency, items, email, shipping);
     let order = await orders.create(currency, items, email, shipping);
     return res.status(200).json({order});
   } catch (err) {
@@ -286,5 +299,25 @@ router.get('/products', async (req, res) => {
 router.get('/products/:id', async (req, res) => {
   res.json(await products.retrieve(req.params.id));
 });
+
+// Retrieve all plans.
+router.get('/plans', async (req, res) => {
+  const planList = await plans.list();
+  // Check if products exist on Stripe Account.
+  if (products.exist(planList)) {
+    res.json(planList);
+  } else {
+    // We need to set up the products.
+    await setup.run();
+    res.json(await plans.list());
+  }
+});
+
+// Retrieve a product by ID.
+router.get('/plans/:id', async (req, res) => {
+  res.json(await plans.retrieve(req.params.id));
+});
+
+
 
 module.exports = router;

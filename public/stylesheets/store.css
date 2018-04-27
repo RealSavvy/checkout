@@ -709,7 +709,7 @@ button:active {
   max-width: 80%;
   height: 350px;
   margin: 100px auto;
-  background: #fff url(/images/products/site.png) -29px no-repeat;
+  background: #fff url(/images/products/App-square.jpg) -29px no-repeat;
   box-shadow: 0 1px 3px 0 rgba(50, 50, 93, 0.15);
   border-radius: 6px;
 }
@@ -790,14 +790,14 @@ button:active {
   #confirmation .status {
     width: auto;
     height: auto;
-    margin: 30px;
+    padding: 0 25px;
+    background: #fff;
   }
 }
 
 @media only screen and (max-width: 500px) {
   header {
     height: 60px;
-    background-size: 40px 40px;
   }
   header a.shop {
     display: none;
@@ -843,8 +843,8 @@ button:active {
     width: auto;
     height: auto;
     padding: 120px 15px 15px;
-    background: #fff url(/images/products/site.png) center 15px no-repeat;
-    background-size: 68px 86px;
+    background: #fff url(/images/products/App-square.jpg) center 15px no-repeat;
+    background-size: 100px 100px;
     box-shadow: 0 1px 3px 0 rgba(50, 50, 93, 0.15);
     border-radius: 6px;
   }

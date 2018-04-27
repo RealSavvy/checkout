@@ -211,12 +211,12 @@
     submitButton.disabled = true;
 
     // Create the order using the email and shipping information from the form.
-    const order = await store.createOrder(
-      config.currency,
-      store.getOrderItems(),
-      email,
-      shipping
-    );
+    // const order = await store.createOrder(
+    //   config.currency,
+    //   store.getOrderItems(),
+    //   email,
+    //   shipping
+    // );
 
     if (payment === 'card') {
       // Create a Stripe source from the card information and the owner name.
@@ -225,7 +225,8 @@
           name,
         },
       });
-      await handleOrder(order, source);
+      await handleSubscription(email, source, shipping);
+      // await handleOrder(order, source);
     } else {
       // Prepare all the Stripe source common data.
       const sourceData = {
@@ -272,6 +273,16 @@
     }
   });
 
+  const handleSubscription = async (email, source, shipping, error = null) => {
+    console.log(email, source);
+    const response = await store.createSubscription(email, source, shipping);
+    const mainElement = document.getElementById('main');
+    const confirmationElement = document.getElementById('confirmation');
+    if(response.id) {
+      confirmationElement.querySelector('.note').innerText ='We’re excited to welcome you to RealSavvy!';
+      mainElement.classList.add('success');
+    }
+  };
   // Handle the order and source activation if required
   const handleOrder = async (order, source, error = null) => {
     const mainElement = document.getElementById('main');
@@ -406,7 +417,7 @@
         mainElement.classList.remove('processing');
         // Update the note about receipt and shipping (the payment is not yet confirmed by the bank).
         confirmationElement.querySelector('.note').innerText =
-          'We’ll send your receipt and ship your items as soon as your payment is confirmed.';
+          'We’ll send your receipt as soon as your payment is confirmed.';
         mainElement.classList.add('success');
         break;
 
