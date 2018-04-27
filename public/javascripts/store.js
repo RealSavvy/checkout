@@ -12,16 +12,13 @@ class Store {
   constructor() {
     this.lineItems = [];
     this.products = {};
+    this.plans = {};
     this.displayOrderSummary();
   }
 
   // Compute the total for the order based on the line items (SKUs and quantity).
   getOrderTotal() {
-    return Object.values(this.lineItems).reduce(
-      (total, {product, sku, quantity}) =>
-        total + quantity * this.products[product].skus.data[0].price,
-      0
-    );
+    return 0;
   }
 
   // Expose the line items for the order (in a way that is friendly to the Stripe Orders API).
@@ -57,6 +54,22 @@ class Store {
     const productsResponse = await fetch('/products');
     const products = (await productsResponse.json()).data;
     products.forEach(product => (this.products[product.id] = product));
+  }
+  
+  // Load the plans details.
+  async loadPlans() {
+    const plansResponse = await fetch('/plans');
+    const plans = (await plansResponse.json()).data;
+    plans.forEach(plan => {
+      let product = this.products[plan.product];
+      if (product) {
+        if (!product.plans) {
+          product.plans = [];
+        }
+        product.plans.push(plan);
+      }
+      this.plans[plan.id] = plan;
+    });
   }
 
   // Create an order object to represent the line items.
@@ -142,33 +155,36 @@ class Store {
   async displayOrderSummary() {
     // Fetch the products from the store to get all the details (name, price, etc.).
     await this.loadProducts();
+    await this.loadPlans();
     const orderItems = document.getElementById('order-items');
     const orderTotal = document.getElementById('order-total');
     let currency;
+
     // Build and append the line items to the order summary.
     for (let [id, product] of Object.entries(this.products)) {
+      console.log(product);
       const quantity = 1;
-      let sku = product.skus.data[0];
-      let skuPrice = this.formatPrice(sku.price, sku.currency);
-      let lineItemPrice = this.formatPrice(sku.price * quantity, sku.currency);
+      let plan = product.plans[0];
+      currency = plan.currency;
+      let planPrice = this.formatPrice(plan.amount, plan.currency);
+      let lineItemPrice = this.formatPrice(plan.amount * quantity, plan.currency);
+
       let lineItem = document.createElement('div');
       lineItem.classList.add('line-item');
       lineItem.innerHTML = `
-        <img class="image" src="${product.images[0]}">
+        <img class="image" src="${product.metadata.image}">
         <div class="label">
           <p class="product">${product.name}</p>
-          <p class="sku">${product.description}</p>
+          <p class="sku">${plan.nickname}</p>
         </div>
         <p class="price">${lineItemPrice}</p>`;
       orderItems.appendChild(lineItem);
-      currency = sku.currency;
       this.lineItems.push({
         product: product.id,
-        sku: sku.id,
+        sku: plan.id,
         quantity,
       });
     }
-    // Add the subtotal and total to the order summary.
     const total = this.formatPrice(this.getOrderTotal(), currency);
     orderTotal.querySelector('[data-subtotal]').innerText = total;
     orderTotal.querySelector('[data-total]').innerText = total;

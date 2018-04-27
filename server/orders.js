@@ -58,6 +58,28 @@ const checkProducts = productList => {
   }, !!productList.data.length);
 };
 
+// List all plans.
+const listPlans = async () => {
+  return await stripe.plans.list({limit: 3});
+};
+
+// Retrieve a product by ID.
+const retrievePlan = async planId => {
+  return await stripe.plans.retrieve(planId);
+};
+
+// Validate that products exist.
+const checkPlans = planList => {
+  const validPlans = ['prod_Ckoa1A8MvwvIbC'];
+  return planList.data.reduce((accumulator, currentValue) => {
+    return (
+      accumulator &&
+      planList.data.length === 3 &&
+      validPlans.includes(currentValue.id)
+    );
+  }, !!planList.data.length);
+};
+
 exports.orders = {
   create: createOrder,
   retrieve: retrieveOrder,
@@ -69,3 +91,9 @@ exports.products = {
   retrieve: retrieveProduct,
   exist: checkProducts,
 };
+
+exports.plans = {
+  list: listPlans,
+  retrieve: retrievePlan,
+  exist: checkPlans,
+}

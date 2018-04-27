@@ -11,7 +11,7 @@
 
 const config = require('../config');
 const setup = require('./setup');
-const {orders, products} = require('./orders');
+const {orders, products, plans} = require('./orders');
 const express = require('express');
 const router = express.Router();
 const stripe = require('stripe')(config.stripe.secretKey);
@@ -286,5 +286,25 @@ router.get('/products', async (req, res) => {
 router.get('/products/:id', async (req, res) => {
   res.json(await products.retrieve(req.params.id));
 });
+
+// Retrieve all plans.
+router.get('/plans', async (req, res) => {
+  const planList = await plans.list();
+  // Check if products exist on Stripe Account.
+  if (products.exist(planList)) {
+    res.json(planList);
+  } else {
+    // We need to set up the products.
+    await setup.run();
+    res.json(await plans.list());
+  }
+});
+
+// Retrieve a product by ID.
+router.get('/plans/:id', async (req, res) => {
+  res.json(await plans.retrieve(req.params.id));
+});
+
+
 
 module.exports = router;
