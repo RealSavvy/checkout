@@ -11,7 +11,7 @@
 
 const config = require('../config');
 const setup = require('./setup');
-const {orders, products, plans} = require('./orders');
+const {orders, products, plans, subscriptions} = require('./orders');
 const express = require('express');
 const router = express.Router();
 const stripe = require('stripe')(config.stripe.secretKey);
@@ -34,10 +34,23 @@ router.get('/', (req, res) => {
  * It creates a charge as soon as a non-card payment source becomes chargeable.
  */
 
+// Create a customer and subscription on the backend.
+router.post('/subscriptions', async (req, res, next) => {
+  let {currency, items, email, shipping, plans} = req.body;
+  try {
+    console.log('-------------------', currency, items, email, shipping);
+    let order = await subscriptions.createSubscription(currency, items, email, shipping);
+    return res.status(200).json({order});
+  } catch (err) {
+    return res.status(500).json({error: err.message});
+  }
+});
+
 // Create an order on the backend.
 router.post('/orders', async (req, res, next) => {
   let {currency, items, email, shipping} = req.body;
   try {
+    console.log('-------------------', currency, items, email, shipping);
     let order = await orders.create(currency, items, email, shipping);
     return res.status(200).json({order});
   } catch (err) {

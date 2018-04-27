@@ -225,7 +225,8 @@
           name,
         },
       });
-      await handleOrder(order, source);
+      await handleSubscription(email, source, shipping);
+      // await handleOrder(order, source);
     } else {
       // Prepare all the Stripe source common data.
       const sourceData = {
@@ -272,6 +273,10 @@
     }
   });
 
+  const handleSubscription = async (email, source, shipping, error = null) => {
+    console.log(email, source);
+    const response = await store.createSubscription(email, source, shipping);
+  };
   // Handle the order and source activation if required
   const handleOrder = async (order, source, error = null) => {
     const mainElement = document.getElementById('main');

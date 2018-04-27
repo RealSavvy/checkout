@@ -73,6 +73,34 @@ class Store {
   }
 
   // Create an order object to represent the line items.
+  async createSubscription(email, source, shipping) {
+    try {
+      const plans = this.plans;
+      const response = await fetch('/subscriptions', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          email,
+          source,
+          plans,
+          shipping,
+        }),
+      });
+      const data = await response.json();
+      if (data.error) {
+        return {error: data.error};
+      } else {
+        // Save the current order locally to lookup its status later.
+        this.setActiveOrderId(data.order.id);
+        return data.order;
+      }
+    } catch (err) {
+      return {error: err.message};
+    }
+    return order;
+  }
+
+  // Create an order object to represent the line items.
   async createOrder(currency, items, email, shipping) {
     try {
       const response = await fetch('/orders', {
