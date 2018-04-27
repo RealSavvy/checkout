@@ -10,6 +10,7 @@
 'use strict';
 
 const config = require('../config');
+const _ = require('lodash');
 const stripe = require('stripe')(config.stripe.secretKey);
 stripe.setApiVersion(config.stripe.apiVersion);
 
@@ -29,13 +30,14 @@ const createOrder = async (currency, items, email, shipping) => {
 const createSubscription = async (email, source, shipping, plans) => {
   const customer = await stripe.customers.create({
     email: email,
-    source: source,
+    source: source.id,
     shipping: shipping,
     metadata: {
       status: 'created',
     }
   });
-  const items = plans.map((plan)=> plan.id);
+  const plainArray = _.values(plans);
+  const items = plainArray.map((plan)=> ({plan: plan.id}));
   return await stripe.subscriptions.create({
     customer: customer.id,
     items: items

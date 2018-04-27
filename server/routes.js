@@ -50,7 +50,7 @@ router.post('/subscriptions', async (req, res, next) => {
 router.post('/orders', async (req, res, next) => {
   let {currency, items, email, shipping} = req.body;
   try {
-    // console.log('-------------------', currency, items, email, shipping);
+     // console.log('-------------------', currency, items, email, shipping);
     let order = await orders.create(currency, items, email, shipping);
     return res.status(200).json({order});
   } catch (err) {

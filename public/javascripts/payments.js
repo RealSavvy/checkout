@@ -211,12 +211,12 @@
     submitButton.disabled = true;
 
     // Create the order using the email and shipping information from the form.
-    const order = await store.createOrder(
-      config.currency,
-      store.getOrderItems(),
-      email,
-      shipping
-    );
+    // const order = await store.createOrder(
+    //   config.currency,
+    //   store.getOrderItems(),
+    //   email,
+    //   shipping
+    // );
 
     if (payment === 'card') {
       // Create a Stripe source from the card information and the owner name.
@@ -276,6 +276,12 @@
   const handleSubscription = async (email, source, shipping, error = null) => {
     console.log(email, source);
     const response = await store.createSubscription(email, source, shipping);
+    const mainElement = document.getElementById('main');
+    const confirmationElement = document.getElementById('confirmation');
+    if(response.id) {
+      confirmationElement.querySelector('.note').innerText ='We’re excited to welcome you to RealSavvy!';
+      mainElement.classList.add('success');
+    }
   };
   // Handle the order and source activation if required
   const handleOrder = async (order, source, error = null) => {

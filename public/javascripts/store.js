@@ -24,13 +24,11 @@ class Store {
   // Expose the line items for the order (in a way that is friendly to the Stripe Orders API).
   getOrderItems() {
     let items = [];
-    this.lineItems.forEach(item =>
-      items.push({
-        type: 'sku',
-        parent: item.sku,
-        quantity: item.quantity,
-      })
-    );
+    items.push({
+      type: 'sku',
+      parent: this.lineItems[0].sku,
+      quantity: this.lineItems[0].quantity,
+    })
     return items;
   }
 
@@ -51,9 +49,15 @@ class Store {
 
   // Load the product details.
   async loadProducts() {
+    const url = window.location.href;
+    const prod_id = getParameterByName('id',url);
     const productsResponse = await fetch('/products');
     const products = (await productsResponse.json()).data;
-    products.forEach(product => (this.products[product.id] = product));
+    products.forEach(product => {
+      if(product.id === prod_id){
+        this.products[product.id] = product
+      }
+    });
   }
   
   // Load the plans details.
@@ -70,6 +74,9 @@ class Store {
       }
       this.plans[plan.id] = plan;
     });
+    const url = window.location.href;
+    const prod_id = getParameterByName('id',url);
+    this.plans = plans.filter(plan=> plan.product===prod_id)
   }
 
   // Create an order object to represent the line items.
@@ -190,7 +197,7 @@ class Store {
 
     // Build and append the line items to the order summary.
     for (let [id, product] of Object.entries(this.products)) {
-      console.log(product);
+      console.log('product',product);
       const quantity = 1;
       let plan = product.plans[0];
       currency = plan.currency;
@@ -218,6 +225,15 @@ class Store {
     orderTotal.querySelector('[data-total]').innerText = total;
     document.getElementById('main').classList.remove('loading');
   }
+}
+function getParameterByName(name, url) {
+  if (!url) url = window.location.href;
+  name = name.replace(/[\[\]]/g, "\\$&");
+  var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+      results = regex.exec(url);
+  if (!results) return null;
+  if (!results[2]) return '';
+  return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
 
 window.store = new Store();
