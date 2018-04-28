@@ -80,11 +80,11 @@ header a:hover {
 }
 
 p.small{
-  font-size: small;
+  font-size: 13px;
   margin: 15px 0;
 }
 p.small a {
-  font-size: small;
+  font-size: 13px;
 }
 
 section {
