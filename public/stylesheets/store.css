@@ -79,6 +79,14 @@ header a:hover {
   opacity: 1;
 }
 
+p.small{
+  font-size: small;
+  margin: 15px 0;
+}
+p.small a {
+  font-size: small;
+}
+
 section {
   display: flex;
   flex-direction: column;
@@ -750,6 +758,10 @@ button:active {
 #main.error #confirmation .error-message {
   font-family: monospace;
 }
+img.testimonial {
+  float: left;
+  margin: 20px;
+}
 
 /* Media Queries */
 
@@ -793,6 +805,12 @@ button:active {
     padding: 0 25px;
     background: #fff;
   }
+  img.testimonial {
+    float: left;
+    margin: 10px;
+    width: 40px;
+  }
+
 }
 
 @media only screen and (max-width: 500px) {
