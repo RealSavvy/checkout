@@ -36,10 +36,10 @@ router.get('/', (req, res) => {
 
 // Create a customer and subscription on the backend.
 router.post('/subscriptions', async (req, res, next) => {
-  let {email, source, shipping, plans} = req.body;
+  let {email, source, shipping, plans, info} = req.body;
   try {
     console.log('-------------------', email, shipping, plans, source);
-    let order = await subscriptions.create(email, source, shipping, plans);
+    let order = await subscriptions.create(email, source, shipping, plans, info);
     return res.status(200).json({order});
   } catch (err) {
     return res.status(500).json({error: err.message});

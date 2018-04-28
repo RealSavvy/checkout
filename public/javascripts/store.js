@@ -82,7 +82,7 @@ class Store {
   }
 
   // Create an order object to represent the line items.
-  async createSubscription(email, source, shipping) {
+  async createSubscription(email, source, shipping, info) {
     try {
       const plans = this.plans;
       const response = await fetch('/subscriptions', {
@@ -93,6 +93,7 @@ class Store {
           source,
           plans,
           shipping,
+          info,
         }),
       });
       const data = await response.json();

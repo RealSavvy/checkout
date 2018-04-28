@@ -207,6 +207,10 @@
         country,
       },
     };
+    const phone = form.querySelector('input[name=phone]').value;
+    const info = {
+      phone,
+    }
     // Disable the Pay button to prevent multiple click events.
     submitButton.disabled = true;
 
@@ -225,7 +229,7 @@
           name,
         },
       });
-      await handleSubscription(email, source, shipping);
+      await handleSubscription(email, source, shipping, info);
       // await handleOrder(order, source);
     } else {
       // Prepare all the Stripe source common data.
@@ -273,9 +277,9 @@
     }
   });
 
-  const handleSubscription = async (email, source, shipping, error = null) => {
+  const handleSubscription = async (email, source, shipping, info, error = null) => {
     console.log(email, source);
-    const response = await store.createSubscription(email, source, shipping);
+    const response = await store.createSubscription(email, source, shipping, info);
     const mainElement = document.getElementById('main');
     const confirmationElement = document.getElementById('confirmation');
     if(response.id) {

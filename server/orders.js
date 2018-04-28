@@ -27,13 +27,14 @@ const createOrder = async (currency, items, email, shipping) => {
   });
 };
 // Create an order.
-const createSubscription = async (email, source, shipping, plans) => {
+const createSubscription = async (email, source, shipping, plans, info) => {
   const customer = await stripe.customers.create({
     email: email,
     source: source.id,
     shipping: shipping,
     metadata: {
       status: 'created',
+      phone: info.phone || ''
     }
   });
   const plainArray = _.values(plans);
