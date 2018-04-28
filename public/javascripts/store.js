@@ -212,7 +212,7 @@ class Store {
         <img class="image" src="${product.metadata.image}">
         <div class="label">
           <p class="product">${product.name}</p>
-          <p class="sku">${plan.nickname}</p>
+          <p class="sku">${product.metadata.description}</p>
         </div>
         <p class="price">${lineItemPrice}</p>`;
       orderItems.appendChild(lineItem);
