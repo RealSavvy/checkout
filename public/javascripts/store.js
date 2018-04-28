@@ -18,7 +18,12 @@ class Store {
 
   // Compute the total for the order based on the line items (SKUs and quantity).
   getOrderTotal() {
-    return 0;
+
+    return Object.values(this.lineItems).reduce(
+      (total, {product, sku, quantity}) =>
+        total + quantity * this.plans[0].amount,
+      0
+    );
   }
 
   // Expose the line items for the order (in a way that is friendly to the Stripe Orders API).
@@ -37,7 +42,7 @@ class Store {
     try {
       const response = await fetch('/config');
       const config = await response.json();
-      
+
       return config;
     } catch (err) {
       return {error: err.message};
@@ -56,7 +61,7 @@ class Store {
       }
     });
   }
-  
+
   // Load the plans details.
   async loadPlans() {
     const plansResponse = await fetch('/plans');
