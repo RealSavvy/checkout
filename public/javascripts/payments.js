@@ -18,7 +18,7 @@
 
   // Create references to the main form and its submit button.
   const form = document.getElementById('payment-form');
-  const submitButton = form.querySelector('button[type=submit]');
+  const submitButton = document.getElementById('payment-button');
 
   /**
    * Setup Stripe Elements.
@@ -438,7 +438,7 @@
         mainElement.classList.remove('processing');
         mainElement.classList.remove('receiver');
         // Update the note about receipt and shipping (the payment has been fully confirmed by the bank).
-        confirmationElement.querySelector('.note').innerText ='We’re excited to welcome you to RealSavvy!';
+        confirmationElement.querySelector('.note').innerText ='In the meantime, please send us your logo, home screen image, broker name, license number, headshot and bio to <a href="mailto:mynewsite@realsavvy.com">mynewsite@realsavvy.com</a>';
         mainElement.classList.add('success');
         break;
     }
