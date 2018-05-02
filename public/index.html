@@ -7,17 +7,18 @@
   <link rel="stylesheet" type="text/css" href="/stylesheets/store.css">
   <link rel="icon" type="image/png" sizes="104x80" href="/images/logo.png">
   <!-- Global site tag (gtag.js) - Google Analytics -->
+
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-50582728-3"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-    gtag('require', 'ec');
+    gtag('event', 'Checkout');
+    gtag('event', 'set_checkout_option', {"checkout_step":1});
     gtag('config', 'UA-50582728-3');
-    gtag('send', 'event', 'Checkout', 'Start');
-    gtag('event', 'page_view');
   </script>
-
+  
+  <script type="text/javascript" src="//script.crazyegg.com/pages/scripts/0070/0746.js" async="async"></script>
 </head>
 
 <body>
