@@ -12,6 +12,8 @@
 
 (async () => {
   'use strict';
+  // Make sure all data is loaded from the store to compute the order amount.
+  await store.init()
 
   // Retrieve the configuration for the store.
   const config = await store.getConfig();
@@ -85,8 +87,6 @@
    * of the page to let users pay in just a click (or a tap on mobile).
    */
 
-  // Make sure all data is loaded from the store to compute the order amount.
-  await store.loadProducts();
 
   // Create the payment request.
   const paymentRequest = stripe.paymentRequest({

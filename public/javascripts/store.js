@@ -13,8 +13,16 @@ class Store {
     this.lineItems = [];
     this.products = {};
     this.plans = {};
-    this.displayOrderSummary();
   }
+
+  async init() {
+    // Fetch the products from the store to get all the details (name, price, etc.).
+    await this.loadProducts();
+    await this.loadPlans();
+    await this.displayOrderSummary();
+  }
+
+
 
   // Compute the total for the order based on the line items (SKUs and quantity).
   getOrderTotal() {
@@ -191,9 +199,6 @@ class Store {
   // Note: For simplicity, we're just using template strings to inject data in the DOM,
   // but in production you would typically use a library like React to manage this effectively.
   async displayOrderSummary() {
-    // Fetch the products from the store to get all the details (name, price, etc.).
-    await this.loadProducts();
-    await this.loadPlans();
     const orderItems = document.getElementById('order-items');
     const orderTotal = document.getElementById('order-total');
     let currency;
